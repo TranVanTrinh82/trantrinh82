@@ -1,0 +1,182 @@
+#include <iostream>
+#include <stdio.h>
+#include <string.h>
+
+struct MatHang
+{
+    char MaHang[12], TenHang[50], DonVi[5];
+    long DonGia;
+    int SoLuong;
+};
+struct Node
+{
+    MatHang data;
+    Node *pNext;
+};
+struct LinkedList
+{
+    Node *pHead;
+    Node *pTail;
+};
+Node *Create_Node(MatHang x)
+{
+    Node *p = new Node;
+    if (p == NULL)
+    {
+        return NULL;
+    }
+    else
+    {
+        p->data = x;
+        p->pNext = NULL;
+    }
+    return p;
+}
+void CreatLinkedList(LinkedList &list)
+{
+    list.pHead = list.pTail = NULL;
+}
+void AddHead(LinkedList &list, Node *newnode)
+{
+    if (list.pHead == NULL)
+    {
+        list.pHead = list.pTail = newnode;
+    }
+    else
+    {
+        newnode->pNext = list.pHead;
+        list.pHead = newnode;
+    }
+}
+void AddTail(LinkedList &list, Node *newnode)
+{
+    if (list.pHead == NULL)
+    {
+        list.pHead = list.pTail = newnode;
+    }
+    else
+    {
+        list.pTail->pNext = newnode;
+        list.pTail = newnode;
+    }
+}
+
+void Display(LinkedList list)
+{
+    if (list.pHead == NULL)
+    {
+        printf("Rong\n");
+    }
+    else
+    {
+        Node *p = list.pHead;
+        while (p != NULL)
+        {
+            printf("%-15s%-30s%-6s%-10ld%-10d\n", p->data.MaHang, p->data.TenHang, p->data.DonVi, p->data.DonGia, p->data.SoLuong);
+            p = p->pNext;
+        }
+    }
+}
+int Dem_100000(LinkedList list)
+{
+    if (list.pHead == NULL)
+    {
+        return 0;
+    }
+    else
+    {
+        int dem = 0;
+        Node *p = list.pHead;
+        while (p != NULL)
+        {
+            if (p->data.DonGia > 100000)
+                dem++;
+            p = p->pNext;
+        }
+        return dem;
+    }
+}
+void SapXepGiamDanTheoSoLuong(LinkedList &list)
+{
+    if (list.pHead == NULL)
+    {
+        printf("Error!!! Can't sort.\n");
+    }
+    else
+    {
+        for (Node *i = list.pHead; i != NULL; i = i->pNext)
+        {
+            for (Node *j = i->pNext; j != NULL; j = j->pNext)
+            {
+                if (i->data.SoLuong < j->data.SoLuong)
+                {
+                    MatHang temp = i->data;
+                    i->data = j->data;
+                    j->data = temp;
+                }
+            }
+        }
+        printf("Sap xep thanh cong\n");
+    }
+}
+void NhapDS(LinkedList &l, int n)
+{
+    MatHang x;
+    for (int i = 0; i < n; i++)
+    {
+        printf("Mat hang thu %d:\n", i + 1);
+        rewind(stdin);
+        printf("Ma hang: ");
+        gets(x.MaHang);
+        printf("Ten hang: ");
+        gets(x.TenHang);
+        printf("Don vi: ");
+        gets(x.DonVi);
+        printf("Don gia: ");
+        scanf("%ld", &x.DonGia);
+        printf("So luong: ");
+        scanf("%d", &x.SoLuong);
+        AddTail(l, Create_Node(x));
+    }
+}
+void menu()
+{
+    printf("1. Nhap N mat hang\n");
+    printf("2. Xuat day du danh sach mat hang\n");
+    printf("3. In ra so luong don hang co don gia lon hon 100000\n");
+    printf("4. Sap xep danh sach theo thu tu giam dan theo so luong\n");
+    printf("0. Thoat\n");
+}
+int main()
+{
+    LinkedList list;
+    CreatLinkedList(list);
+    int chon, n;
+    menu();
+    do
+    {
+        printf("> Chon: ");
+        scanf("%d", &chon);
+        switch (chon)
+        {
+        case 1:
+            printf("So mat hang: ");
+            scanf("%d", &n);
+            NhapDS(list, n);
+            break;
+        case 2:
+            Display(list);
+            break;
+        case 3:
+            printf("So luong hang hoa co don gia lon hon 100000 la: %d\n", Dem_100000(list));
+            break;
+        case 4:
+            SapXepGiamDanTheoSoLuong(list);
+            break;
+        }
+
+    } while (chon != 0);
+
+    system("pause");
+    return 0;
+}
