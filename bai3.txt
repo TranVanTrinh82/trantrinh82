@@ -1,0 +1,15 @@
+package Ktra;
+
+import Ktra.Trainee;
+
+public class main {
+    public static void main (String[]args){
+        Saler   s   = new Saler();
+        Trainee t   = new Trainee();
+      
+        s.setSales(200000);
+        s.intt();
+        t.getBonus(0);
+    }
+    
+}

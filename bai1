@@ -1,0 +1,26 @@
+package Ktra;
+
+public class Saler{
+    private String name;
+    private float sales;
+    Sanner sc=new Scanner(System.in);
+    public Saler(){
+        name="Van";
+        sales=0;
+    }
+    public float getBonus(float sales){
+        return sales*0,05;
+    }
+    public void setSales(float sales) {
+        this.sales = sales;
+    }
+    public float getSales() {
+        return sales;
+    }
+    public intt(){
+        System.out.println("Ten Nhan Vien:"+name);
+        System.out.println("Danh so ban hang: "+getSales());
+        System.out.println("Tien thuong danh so: "+getBonus(sales));
+    }
+
+}
